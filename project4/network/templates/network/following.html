@@ -1,0 +1,24 @@
+{% extends 'network/layout.html' %}
+{% load static %}
+{% block body %}
+
+<nav aria-label="Page navigation example" style='margin: 10px; text-align: center; left: 20%;'>
+    <ul class="pagination">
+        <li class="page-item"><a class="page-link" id='prev_page' href="" onclick='return false;'>Previous</a></li>
+        <li class="page-item"><a class="page-link" id='next_page' href="" onclick='return false;'>Next</a></li>
+    </ul>
+</nav>
+
+<div id='posts'>
+</div>
+
+
+{% endblock body %}
+{% block script %}
+<script type='module' src='{% static 'network/index.js' %}'></script>
+<script>
+    let pageInd = {{pageInd}};
+    const USERNAME = '{{request.user.username}}';
+    const postFilter = '{{filter}}';
+</script>
+{% endblock script %}

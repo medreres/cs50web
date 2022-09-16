@@ -1,0 +1,71 @@
+{% extends 'auctions/layout.html' %}
+{% block title %}
+Category
+{% endblock %}
+{% block body %}
+<h3>Select category</h3>
+<form action=" {% url 'categories' %} " method="get" style="margin-bottom: 60px;">
+  <div class="form-group">
+    <label for="Category"></label>
+    <select class="form-control" name="Category" id="Category">
+      {% for category in categories %}
+      <option value="{{category.0}}"> {{category.1}} </option>
+      {% endfor %}
+    </select>
+    <button type="submit" class="btn btn-primary" style="float: right; margin-top: 10px; ">Search</button>
+  </div>
+</form>
+<style>
+  td {
+    padding: 30px;
+    padding-top: 10px;
+    padding-bottom: 5px;
+    padding-right: 5px;
+
+  }
+
+  img {
+    max-height: 400px;
+    max-width: 400px;
+  }
+
+
+  #listing {
+    color: black !important;
+  }
+</style>
+{% for listing in listings %}
+{% if listing.isClosed == False %}
+<a id="listing" href="{% url 'listing' listing.id %}">
+  <table style="border: 1px solid black; width: 100%; margin-top: 15px;">
+    <tr>
+      <td style="width:33%;margin-left:auto;margin-right:auto;" rowspan="5">
+        {% if listing.image %}
+        <img src="{{ listing.image }}">
+        {% else %}
+        <img
+          src="data:image/png;base64,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">
+        {% endif %}
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <h3 style="padding-top: 15px">{{ listing.title }}</h3>
+      </td>
+    </tr>
+    <tr>
+      <td><b>Price:</b> ${{ listing.price }}</td>
+    </tr>
+    {% if listing.description %}
+    <tr>
+      <td>{{ listing.description }}</td>
+    </tr>
+    {% endif %}
+    <tr>
+      <td style="padding-bottom: 60px; padding-top: 20px;font-size: small;">{{ listing.date}}</td>
+    </tr>
+  </table>
+</a>
+{% endif %}
+{% endfor %}
+{% endblock %}

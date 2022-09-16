@@ -1,0 +1,15 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    Search
+{% endblock %}
+
+{% block body %}
+    {% if entries|length > 0 %}
+        {% for entry in entries %}
+            <li><a href="/{{entry}}">{{ entry }}</a></li>
+        {% endfor %}
+    {% else %}
+        <h1 style="text-align:center">No similar page exist. Reviev request</h1>     
+    {% endif %}
+{% endblock %}

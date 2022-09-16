@@ -1,0 +1,189 @@
+{% extends "auctions/layout.html" %}
+{% block title %}Auctions{% endblock %}
+{% block head %}
+<script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+<style>
+    .ErrMessage {
+        transform: translate(-50%, -50%);
+        position: absolute;
+        top: 50%;
+        left: 50%;
+    }
+
+    img {
+        max-height: 400px;
+        max-width: 400px;
+    }
+
+    #heart1,
+    #heart2 {
+        height: 30px;
+        width: 30px
+    }
+
+    td {
+        padding: 10px;
+    }
+</style>
+{% endblock %}
+{% block body %}
+{% if ErrorMessage %}
+
+<div class="ErrMessage">
+    <h1 align="center">404</h1>
+    <h1>Page doesn't exist</h1>
+</div>
+{% else %}
+<table style="border: 1px solid black; width: 100%; height: 300px;">
+    <tr>
+        <td style="width:33%;margin-left:auto;margin-right:auto;" rowspan="4">
+            <div class="parent">
+                {% if listing.image %}
+                <img class="image1" style="margin: 10px; " src="{{ listing.image }}">
+                {% else %}
+                <img class="image1" style="margin: 10px; "
+                    src="data:image/png;base64,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">
+                {% endif %}
+                {% if listing.isClosed %}
+                <style>
+                    .parent {
+                        position: relative;
+                        top: 0;
+                        left: 0;
+                    }
+
+                    .image1 {
+                        position: relative;
+                        top: 0;
+                        left: 0;
+                    }
+
+                    .image2 {
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -45%);
+                        height: 200px;
+                        width: 300px;
+                    }
+                </style>
+                <img class="image2"
+                    src="https://pngroyale.com/wp-content/uploads/2021/11/Download-sold-stamp-vector-png-transparent-svg-onlygfxm-21.png">
+                {% endif %}
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <h2 style="padding-top: 15px">{{ listing.title }}</h2>
+            <script>
+                function MyFunction() {
+                    const heart1 = document.getElementById('heart1'),
+                        heart2 = document.getElementById('heart2');
+                    if (heart1.style.display != 'none') {
+                        heart1.style.display = 'none'
+                        heart2.style.display = 'block'
+                    } else {
+                        heart1.style.display = 'block'
+                        heart2.style.display = 'none'
+                    }
+                }
+            </script>
+        <td style="margin: 5px;">
+            <div onclick="MyFunction()">
+                <a href="{% url 'addToWatchList' listing.id %}">
+                    {% if is_favorite %}
+                    <ion-icon style="display: block;color:red;" id="heart1" name="heart"></ion-icon>
+                    <ion-icon style="display:none;" id="heart2" name="heart-outline"></ion-icon>
+                    {% else %}
+                    <ion-icon style="display: none;color:red;" id="heart1" name="heart"></ion-icon>
+                    <ion-icon style="display: block;" id="heart2" name="heart-outline"></ion-icon>
+                    {% endif %}
+                </a>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <h3>
+                {% if listing.isClosed %}
+                <s>${{ listing.price }}</s><br>
+                {% if listing.winner != request.user %}
+                Winner: <b>{{ listing.winner.username }}</b>
+                {% else %}
+                You won this auction!
+                {% endif %}
+                {% else %}
+                ${{ listing.price }}
+                {% endif %}
+            </h3>
+            {% if listing.isClosed == False and listing.author.id != request.user.id and user.is_authenticated %}
+            <form action="{% url 'placeBid' listing.id %}" method="post">
+                {{ Bids }} bid(s) so far. Your bid is current<br>
+                {% csrf_token %}
+                {{ BidForm.as_p }}
+                <input class="btn btn-primary" type="submit" value="Place Bid">
+            </form>
+            {% endif %}
+        </td>
+    </tr>
+    {% if listing.description %}
+    <tr>
+        <td>{{ listing.description }}</td>
+    </tr>
+    <tr>
+        {% endif %}
+        {% if request.user.id == listing.author.id %}
+        <td></td>
+        <td>
+            {% if listing.isClosed == False %}
+            <form action="{% url 'closeListing' listing.id %}">
+                {% csrf_token %}
+                <input class="btn btn-danger" type="submit" value="Close Auction"
+                    onclick="return confirm('Are you sure?')" />
+            </form>
+            {% endif %}
+        </td>
+
+    </tr>
+    <tr>
+        <td>
+            <h2>Details</h2>
+            <ul>
+                <li>Listed by: <b>{{ listing.author.username }}</b></li>
+                {% if listing.category %}
+                <li>Category: <b>{{ listing.category }}</b></li>
+                {% else %}
+                <li>Category: No Category Listed </li>
+                {% endif %}
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="4">
+            <h2>Comments</h2>
+            {% if user.is_authenticated and listing.isClosed == False %}
+            <div style="border: 1px solid black; width: 100%; height: 100px; padding: 10px; position: relative">
+                <div>
+                    <form action="{% url 'comment' listing.id %}" method="post">
+                        {% csrf_token %}
+                        {{ CommentForm.as_p }}
+                        <input class="btn btn-primary" type="submit" value="Comment" style="float: right">
+                    </form>
+                </div>
+            </div>
+            {% endif %}
+            {% for comment in comments %}
+            <div style="border: 1px solid black; width: 100%; height: 100%; padding: 10px; margin-top: 10px">
+                <b>{{ comment.author.username }}</b> <span style="font-size:small">22.02.2018</span> <br>
+                {{ comment.text }}
+            </div>
+            {% endfor %}
+        </td>
+    </tr>
+    {% endif %}
+    <tr>
+</table>
+{% endif %}
+{% endblock %}

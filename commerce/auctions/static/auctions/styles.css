@@ -1,0 +1,11 @@
+body {
+    padding: 10px;
+}
+
+.img {
+    position: absolute;
+    top: 58%;
+    left: 35%;
+    max-width: 200px;
+    max-height: 200px;
+}

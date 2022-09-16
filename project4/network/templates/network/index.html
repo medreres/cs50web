@@ -1,0 +1,39 @@
+{% extends "network/layout.html" %}
+{% load static %}
+
+
+{% block body %}
+
+<nav aria-label="Page navigation example" style='margin: 10px; text-align: center; left: 20%;'>
+    <ul class="pagination">
+        <li class="page-item"><a class="page-link" id='prev_page' href="" onclick='return false;'>Previous</a></li>
+        <li class="page-item"><a class="page-link" id='next_page' href="" onclick='return false;'>Next</a></li>
+    </ul>
+</nav>
+{%if user.is_authenticated%}
+<form class='NewPostForm' method='post'>
+    {% csrf_token %}
+    {{NewPostForm}}
+    <button type="submit" class="btn btn-primary">Post</button>
+</form>
+{%endif%}
+{% comment %} div for posts loaded via js {% endcomment %}
+<div id='posts'>
+</div>
+
+
+{% comment %} # handle some errors {% endcomment %}
+{% if ERROR%}
+<h1>{{ERROR}}</h1>
+{% endif %}
+{% endblock %}
+{% block script %}
+<script type="module" src="{% static 'network/index.js' %}"></script>
+<script>
+    // index of page to load
+    let pageInd = {{pageInd}};
+    // get username
+    const USERNAME = '{{request.user.username}}';
+    const postFilter = '{{filter}}';
+</script>
+{% endblock %}

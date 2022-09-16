@@ -1,0 +1,61 @@
+{% extends 'network/layout.html' %}
+{% load static %}
+{% block body %}
+<div style='margin: 20px;'>
+    <h2>{{username}}
+        {% if user.is_authenticated and request.user.username != username %}
+        {% if isFollowing %}
+        <button type="button" class="btn btn-secondary" onclick='unfollow();'>Unfollow</button>
+        {% else %}
+        <button type="button" class="btn btn-primary" onclick='follow();'>Follow</button>
+        {% endif %}
+        {% endif %}
+    </h2>
+    <ul style='list-style-type:none'>
+        <li style="display:inline; margin: 5px;" id='postsCount'><b>{{postsCount}}</b> Posts</li>
+        <li style="display:inline; margin: 5px;" id='followers'><b>{{followersCount}}</b> Followers</li>
+        <li style="display:inline; margin: 5px;" id='following'><b>{{followingCount}}</b> Following</li>
+    </ul>
+</div>
+
+{% for post in posts %}
+
+{% endfor %}
+<nav aria-label="Page navigation example" style='margin: 10px; text-align: center; left: 20%;'>
+    <ul class="pagination">
+        <li class="page-item"><a class="page-link" id='prev_page' href="" onclick='return false;'>Previous</a></li>
+        <li class="page-item"><a class="page-link" id='next_page' href="" onclick='return false;'>Next</a></li>
+    </ul>
+</nav>
+<div id='posts'>
+
+</div>
+{% endblock body %}
+{% block script %}
+<script type='module' src='{% static 'network/profile.js' %}'></script>
+<script>
+    // page index
+    let pageInd = {{pageInd}};
+    const postFilter = '{{filter}}';
+    const USERNAME = '{{request.user.username}}';
+    
+    
+    function follow() {
+        const url = new URL(window.location.href);
+        const username = url.pathname.replace('/', '');
+        fetch('{% url 'follow' username %}')
+            .then(() => {
+                document.location.reload();
+            })
+    }
+
+    function unfollow() {
+        const url = new URL(window.location.href);
+        const username = url.pathname.replace('/', '');
+        fetch('{% url 'unfollow' username %}').then(() => {
+            document.location.reload();
+        })
+    }
+</script>
+
+{% endblock script %}

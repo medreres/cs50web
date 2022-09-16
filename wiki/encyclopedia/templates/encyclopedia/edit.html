@@ -1,0 +1,30 @@
+{% extends "encyclopedia/layout.html" %}
+{% block head %}
+
+{% endblock %}
+
+
+{% block title %}
+    Edit {{title}}
+{% endblock %}
+
+{% block body %}
+<h1 style="text-align:center">Create page</h1>
+<form method="post" autocomplete="off" method="{% url 'page' title %}" >
+    {% csrf_token %}
+    <table>
+        <tr>
+           
+        </tr>
+        <tr>
+            <th><label for="a">Text for the page:</label></th>
+            <td><textarea required autocomplete="off" style="margin-top: 30px;margin-left: 30px; width: 400px; min-height: 100px; height: 200px;"
+                    type="text" name="text" id="a">{{text}}</textarea></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input  style="float:right; margin-top: 10px;"  type="submit"></td>
+        </tr>
+    </table>
+</form>
+{% endblock %}
